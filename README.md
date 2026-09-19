@@ -7,6 +7,11 @@ WhatsApp's own transcript UI.
 No build step, no npm dependencies. Load the folder as an unpacked extension and
 it runs.
 
+![The Transcribe link and a finished transcript inside a WhatsApp Web bubble](docs/screenshot.png)
+
+*The conversation is a mock-up — no real messages. The transcript panel, the
+links and the styling are rendered by the extension itself.*
+
 ## How it works
 
 WhatsApp media is end-to-end encrypted. The only place the audio exists in the
@@ -179,6 +184,7 @@ options.js
 styles.css
 icons/
 _locales/      # en (default), it
+docs/          # README assets
 ```
 
 ## Adding a transcription engine
