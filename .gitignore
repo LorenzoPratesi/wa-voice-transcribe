@@ -1,0 +1,5 @@
+# Store package produced by scripts/package.sh
+build/
+
+# macOS
+.DS_Store

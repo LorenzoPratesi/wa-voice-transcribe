@@ -12,6 +12,11 @@ it runs.
 *The conversation is a mock-up — no real messages. The transcript panel, the
 links and the styling are rendered by the extension itself.*
 
+> **Not affiliated with, endorsed by, or sponsored by WhatsApp or Meta.**
+> This is an independent, unofficial project. "WhatsApp" is a trademark of its
+> respective owner and is used here only to describe what the extension works
+> with.
+
 ## How it works
 
 WhatsApp media is end-to-end encrypted. The only place the audio exists in the
@@ -171,6 +176,17 @@ If something breaks, `SELECTORS` is where to start.
 
 Voice note audio is sent to Groq for transcription, and transcripts are stored in
 plain text in `chrome.storage.local`. See [PRIVACY.md](PRIVACY.md).
+
+## Disclaimer
+
+This project is not affiliated with, endorsed by, or sponsored by WhatsApp LLC or
+Meta Platforms, Inc. It is an independent browser extension that runs in your own
+browser, on your own session. All product names and trademarks belong to their
+respective owners and are used for identification only.
+
+The extension does not automate WhatsApp beyond the play/pause needed to decrypt
+the audio you explicitly asked to transcribe. Using it is your responsibility, and
+you should check it against WhatsApp's own terms of service before relying on it.
 
 ## Structure
 
