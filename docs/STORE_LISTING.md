@@ -91,9 +91,8 @@ PRIVACY
 
 The audio of the voice notes you choose to transcribe is sent to the provider you
 configured — or to nobody but your own machine, if that is what you point it at.
-Transcripts
-are stored in plain text in your browser's local storage, and you can clear them
-at any time from the options page. Full details in the privacy policy.
+Transcripts are stored in plain text in your browser's local storage, and you can
+clear them at any time from the options page. Full details in the privacy policy.
 
 NOT AFFILIATED WITH WHATSAPP
 
@@ -183,6 +182,21 @@ user asked to transcribe, which is what makes the page decrypt the audio; that
 playback is muted and stopped immediately.
 ```
 
+**Remote code use**
+```
+No. The extension does not use remote code.
+
+Every line of JavaScript it runs is contained in the uploaded package. There is
+no eval, no new Function, no dynamically imported module, and no script loaded
+from a network location — the only <script> tag is a relative reference to a
+bundled file.
+
+The extension makes exactly two kinds of fetch: one to the transcription
+endpoint the user configured, which sends audio and receives text, and one to a
+blob: URL that exists only in the page's own memory. Both carry data, never code,
+and neither result is executed.
+```
+
 ## Data usage disclosures
 
 Declare honestly. Voice message content is **personal communications**, a
@@ -221,6 +235,40 @@ Transcribing WhatsApp Web voice messages into text, shown inside the conversatio
 ```
 
 ---
+
+## Test instructions for the reviewer
+
+The extension does nothing without an API key, so a reviewer who installs it and
+clicks Transcribe sees only an error. These instructions go in the *Account →
+Test instructions* field.
+
+```
+The extension requires a transcription API key, which each user supplies
+themselves. Without one it shows "API key not configured" and does nothing else.
+
+TO TEST
+
+1. Get a free API key at https://console.groq.com/keys (no payment details
+   required for the free tier).
+2. Open the extension's options page, leave the provider on "Groq", paste the key
+   and click Save.
+3. Open https://web.whatsapp.com and sign in. Open any conversation that contains
+   a voice message.
+4. A green "Transcribe" link appears under the voice note player, inside the
+   bubble. Click it. The text appears in the same bubble within a few seconds,
+   with "Copy" and "Hide" underneath.
+
+WHAT TO EXPECT
+
+- Nothing is transcribed automatically; only the voice note you click is sent.
+- Clicking the same voice note again serves the text from the local cache and
+  makes no network request.
+- No file is downloaded, and no request is ever made to WhatsApp's servers. The
+  only outbound request is the POST to the transcription provider.
+
+If you prefer not to create an account, contact us and we will supply a
+short-lived test key.
+```
 
 ## Before submitting
 
