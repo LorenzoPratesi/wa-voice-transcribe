@@ -9,8 +9,9 @@ it runs.
 
 ![The Transcribe link and a finished transcript inside a WhatsApp Web bubble](docs/screenshot.png)
 
-*The conversation is a mock-up — no real messages. The transcript panel, the
-links and the styling are rendered by the extension itself.*
+*Real WhatsApp Web. A test conversation, so no private messages — the voice notes
+were recorded for this screenshot, and the text above is what the extension
+actually produced from them.*
 
 > **Not affiliated with, endorsed by, or sponsored by WhatsApp or Meta.**
 > This is an independent, unofficial project. "WhatsApp" is a trademark of its
