@@ -25,6 +25,7 @@
       color: inherit;
     }
     small { display: block; margin-top: 6px; opacity: .65; }
+    small.err { opacity: 1; color: #c0392b; }
     a { color: inherit; }
     .row { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
     button {
@@ -37,35 +38,59 @@
       cursor: pointer;
     }
     button:hover { background: rgba(127,127,127,.22); }
-    button.primary { border-color: transparent; background: #21c063; color: #0a0a0a; }
-    button.primary:hover { background: #1daa61; }
+    button.primary { border-color: transparent; background: #5b5bd6; color: #fff; }
+    button.primary:hover { background: #4a4ac2; }
     .status { min-height: 20px; margin-top: 10px; font-size: 13px; opacity: 0; transition: opacity .15s ease; }
     .status.show { opacity: 1; }
     .status.err { color: #c0392b; }
     hr { border: 0; border-top: 1px solid rgba(127,127,127,.25); margin: 28px 0 0; }
+    /* Permission notice: only shown while the chosen provider is not reachable. */
+    #permRow {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 14px; padding: 12px 14px;
+      border: 1px solid rgba(127,127,127,.35); border-radius: 8px;
+      background: rgba(127,127,127,.08);
+    }
+    #permRow[hidden] { display: none; }
+    #permText { flex: 1; font-size: 13px; }
+    #permRow button { flex: none; }
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
   <h1 data-i18n="extName">WA Voice Transcribe</h1>
   <p class="sub" data-i18n="optSubtitle"></p>
 
+  <label for="provider" data-i18n="optProvider"></label>
+  <select id="provider"></select>
+  <small data-i18n="optProviderHelp"></small>
+
+  <div id="permRow" hidden>
+    <span id="permText"></span>
+    <button id="grant" type="button" data-i18n="optGrantAccess"></button>
+  </div>
+
   <label for="apiKey" data-i18n="optApiKey"></label>
-  <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="gsk_…">
-  <small>
+  <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-…">
+  <small id="apiKeyHelp">
     <span data-i18n="optApiKeyHelpBefore"></span>
-    <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>.
+    <a id="keysLink" href="#" target="_blank" rel="noopener"></a>.
     <span data-i18n="optApiKeyHelpAfter"></span>
   </small>
+
+  <div id="baseUrlRow" hidden>
+    <label for="baseUrl" data-i18n="optBaseUrl"></label>
+    <input id="baseUrl" type="url" autocomplete="off" spellcheck="false" placeholder="https://my-server/v1">
+    <small id="baseUrlHelp" data-i18n="optBaseUrlHelp"></small>
+  </div>
+
+  <label for="model" data-i18n="optModel"></label>
+  <select id="model"></select>
+  <input id="modelCustom" type="text" autocomplete="off" spellcheck="false" hidden>
 
   <label for="language" data-i18n="optLanguage"></label>
   <input id="language" type="text" autocomplete="off" spellcheck="false" placeholder="auto">
   <small data-i18n="optLanguageHelp"></small>
-
-  <label for="model" data-i18n="optModel"></label>
-  <select id="model">
-    <option value="whisper-large-v3-turbo" data-i18n="optModelTurbo"></option>
-    <option value="whisper-large-v3" data-i18n="optModelLarge"></option>
-  </select>
 
   <label for="ttlDays" data-i18n="optRetention"></label>
   <select id="ttlDays">
@@ -90,6 +115,6 @@
   <div id="cacheStatus" class="status"></div>
   <small id="cacheCount"></small>
 
-  <script src="options.js"></script>
+  <script type="module" src="options.js"></script>
 </body>
 </html>

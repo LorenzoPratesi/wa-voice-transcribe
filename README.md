@@ -52,34 +52,86 @@ Consequences:
 
 - no file is ever written to disk;
 - no request is ever made to WhatsApp's servers;
-- the only network request is the POST to Groq.
+- the only network request is the one to the transcription provider you chose.
 
 ## Install
 
 1. Open `chrome://extensions`
 2. Turn on **Developer mode**
 3. **Load unpacked** → select this folder
-4. Open the extension's options and paste your Groq API key
+4. Open the extension's options, pick a provider and paste your API key
 5. Reload `https://web.whatsapp.com`
 
 Requires Chrome 111 or later (`"world": "MAIN"` in content scripts).
 
-## API key
+## Providers
 
-Create one for free at <https://console.groq.com/keys>. It is never hardcoded: it
-lives only in `chrome.storage.local`, on your computer, and never passes through
-anyone else.
+The extension talks to any service that speaks the **OpenAI audio transcription
+API**. That is not a coincidence: Groq's endpoint is OpenAI-compatible, so one
+engine covers several services and a self-hosted server alike.
 
-Free tier limits: 20 requests/minute, 2,000/day, 7,200 seconds of audio/hour,
-28,800/day, 25 MB per file.
+| provider | endpoint | key |
+|---|---|---|
+| **Groq** (default) | `https://api.groq.com/openai/v1` | [console.groq.com/keys](https://console.groq.com/keys) |
+| **OpenAI** | `https://api.openai.com/v1` | [platform.openai.com/api-keys](https://platform.openai.com/api-keys) |
+| **OpenRouter** | `https://openrouter.ai/api/v1` | [openrouter.ai/keys](https://openrouter.ai/keys) |
+| **Custom** | whatever you enter | whatever your server expects |
+
+OpenRouter is an aggregator: one key reaches many models, including Groq's fast
+Whisper. Its model field is free text rather than a dropdown, because the
+catalogue is large and moves — paste any slug from
+[openrouter.ai/models](https://openrouter.ai/models). The default is
+`openai/whisper-large-v3` rather than `openai/whisper-1`, because WhatsApp voice
+notes are **ogg/opus** and `whisper-1` does not list ogg among its accepted
+formats.
+
+> Whether every OpenRouter-routed model accepts ogg has not been verified against
+> the live API. If a model rejects the upload, try `openai/whisper-large-v3`.
+
+### Using *Custom*
+
+*Custom* covers everything else, including a model on your own machine — in which
+case no audio leaves it at all. Enter the base URL, and the extension appends
+`/audio/transcriptions`.
+
+| service | base URL |
+|---|---|
+| DeepInfra | `https://api.deepinfra.com/v1` |
+| whisper.cpp `server` | `http://localhost:8080/v1` |
+| speaches / faster-whisper-server | `http://localhost:8000/v1` |
+| LocalAI | `http://localhost:8080/v1` |
+| LM Studio | `http://localhost:1234/v1` |
+| vLLM | `http://localhost:8000/v1` |
+
+Ports are the usual defaults; use whatever yours is configured for. These are
+starting points, not a compatibility promise: each service decides which models
+and audio formats it accepts.
+
+**Each provider keeps its own key.** Switching in the options does not overwrite
+the one you had, so you can move between them freely.
+
+Keys are never hardcoded and never leave your computer except as the
+`Authorization` header of the request to the provider you picked.
+
+### Host permissions
+
+Only Groq's domain is requested at install time. Everything else is an **optional
+permission**, asked for when you actually select it: the options page shows a
+*Grant access* button and Chrome prompts for that one origin. Pick a provider you
+never use and the extension has no way to reach it.
+
+Plain `http` is refused except on `localhost` and `127.0.0.1` — anywhere else the
+API key would travel unencrypted.
 
 ## Options
 
 | setting | default |
 |---|---|
-| Groq API key | — |
+| Provider | Groq |
+| API key | — (kept per provider) |
+| Endpoint base URL | — (custom provider only) |
 | Voice note language | empty (automatic detection) |
-| Model | `whisper-large-v3-turbo` |
+| Model | the provider's default |
 | Keep transcripts | forever |
 
 ## Interface
@@ -175,8 +227,9 @@ If something breaks, `SELECTORS` is where to start.
 
 ## Privacy
 
-Voice note audio is sent to Groq for transcription, and transcripts are stored in
-plain text in `chrome.storage.local`. See [PRIVACY.md](PRIVACY.md).
+Voice note audio is sent to the provider you configured, and transcripts are
+stored in plain text in `chrome.storage.local`. With a self-hosted custom endpoint
+the audio never leaves your machine. See [PRIVACY.md](PRIVACY.md).
 
 ## Disclaimer
 
@@ -195,26 +248,53 @@ you should check it against WhatsApp's own terms of service before relying on it
 manifest.json
 inject.js      # MAIN world — createObjectURL + media prototype hooks, postMessage bridge
 content.js     # ISOLATED world — observer, UI, orchestration
-background.js  # service worker — TranscriptionEngine + GroqEngine, cache sweep
+background.js  # service worker — engines, cache sweep
+providers.js   # provider table and URL helpers  (shared module)
+settings.js    # storage shape and migration     (shared module)
 options.html
 options.js
 styles.css
 icons/
 _locales/      # en (default), it
-docs/          # README assets
+docs/          # README assets and store listing copy
+scripts/       # store packaging
 ```
 
-## Adding a transcription engine
+## Adding a provider
 
-In `background.js`, implement `TranscriptionEngine` and register the class in
-`ENGINES`. Selection is driven by the `engine` key in `chrome.storage.local`
-(default `groq`): the content script needs no changes.
+If the service speaks the OpenAI audio transcription API, it is a row in
+`providers.js` — no new code:
 
 ```js
-class LocalEngine extends TranscriptionEngine {
+export const PROVIDERS = {
+  // …
+  mine: {
+    label: 'My service',
+    baseUrl: 'https://api.example.com/v1',
+    origin: 'https://api.example.com/*',
+    keysUrl: 'https://example.com/keys',
+    models: ['some-model'],
+    defaultModel: 'some-model',
+    maxBytes: 25 * 1024 * 1024
+  }
+};
+```
+
+Add the origin to `optional_host_permissions` in the manifest and register the id
+in `ENGINES`, pointing at `OpenAICompatibleEngine`. The options page picks the new
+entry up on its own.
+
+## Adding an engine
+
+A service with its own request and response shape — Deepgram or AssemblyAI, say —
+needs an engine instead. Implement `TranscriptionEngine` in `background.js` and
+register the class in `ENGINES`; the content script needs no changes.
+
+```js
+class DeepgramEngine extends TranscriptionEngine {
   async transcribe({ base64, mime, language }) { /* -> string */ }
 }
-const ENGINES = { groq: GroqEngine, local: LocalEngine };
+const ENGINES = { groq: OpenAICompatibleEngine, deepgram: DeepgramEngine };
 ```
 
 ## Translating

@@ -24,21 +24,14 @@ reviewer looks at.
 ## Short description (132 characters max)
 
 The dashboard pre-fills this from the manifest's `description`, which currently
-reads (78 characters):
+reads (88 characters):
 
 ```
-Transcribe WhatsApp Web voice messages with Groq Whisper, right in the bubble.
+Transcribe WhatsApp Web voice messages in the bubble. Groq, OpenAI or your own endpoint.
 ```
 
-That is fine as-is. If you want the key requirement visible up front, paste this
-instead — it stays within the limit:
-
-```
-Transcribe WhatsApp Web voice messages with Groq Whisper, right in the bubble. Bring your own API key.
-```
-
-101 characters. Changing it here does not change the manifest; to keep the two in
-sync, edit `extDesc` in `_locales/*/messages.json`.
+Changing it here does not change the manifest; to keep the two in sync, edit
+`extDesc` in `_locales/*/messages.json`.
 
 ## Category
 
@@ -55,16 +48,26 @@ WhatsApp's own look in both light and dark themes.
 HOW IT WORKS
 
 The audio never leaves your browser except to be transcribed. The extension
-reads the already-decrypted audio out of the page, sends it to the Groq Whisper
-API using YOUR OWN API key, and shows the result. No file is written to disk, and
-no request is ever made to WhatsApp's servers.
+reads the already-decrypted audio out of the page, sends it to the provider you
+chose using YOUR OWN API key, and shows the result. No file is written to disk,
+and no request is ever made to WhatsApp's servers.
+
+CHOOSE YOUR PROVIDER
+
+Groq, OpenAI, OpenRouter, or any server that speaks the OpenAI audio
+transcription API — including one running on your own machine, in which case the
+audio never leaves it at all. Each provider keeps its own key, so switching does
+not lose the other.
+
+Only Groq's domain is requested when you install. Any other provider is an
+optional permission, asked for when you pick it, one origin at a time.
 
 BRING YOUR OWN KEY
 
-You need a free Groq API key (console.groq.com/keys). It is stored only on your
-computer and is never sent anywhere except to Groq. The developer of this
-extension has no server, receives no data, and cannot see your key, your audio or
-your transcripts.
+You supply the API key (a free one from console.groq.com/keys works). It is
+stored only on your computer and is never sent anywhere except to the provider
+you selected. The developer of this extension has no server, receives no data,
+and cannot see your keys, your audio or your transcripts.
 
 FEATURES
 
@@ -74,13 +77,16 @@ FEATURES
 • Transcripts are cached, so reopening a chat costs no API call
 • Optional expiry: delete transcripts after 7, 30, 90 days or a year
 • Automatic language detection, or pin a specific language
+• Use a local model for full privacy: point it at your own endpoint
 • Works in any WhatsApp interface language — detection does not rely on
   translated labels
 • Open source: github.com/LorenzoPratesi/wa-voice-transcribe
 
 PRIVACY
 
-The audio of the voice notes you choose to transcribe is sent to Groq. Transcripts
+The audio of the voice notes you choose to transcribe is sent to the provider you
+configured — or to nobody but your own machine, if that is what you point it at.
+Transcripts
 are stored in plain text in your browser's local storage, and you can clear them
 at any time from the options page. Full details in the privacy policy.
 
@@ -103,7 +109,7 @@ https://github.com/LorenzoPratesi/wa-voice-transcribe/blob/main/PRIVACY.md
 |---|---|
 | `docs/store/01-transcript-in-bubble.png` | a finished transcript with Copy / Hide |
 | `docs/store/02-idle-and-progress.png` | the idle link and the in-progress state |
-| `docs/store/03-options.png` | the options page |
+| `docs/store/03-options.png` | the options page, with the provider selector and the permission prompt |
 
 The conversations in them are mock-ups: no real messages. The transcript UI is
 rendered by the extension itself, so what is shown is what it does.
@@ -143,6 +149,26 @@ user explicitly asked to transcribe, authenticated with the user's own API key,
 and receives the text back. This is the only remote host the extension contacts.
 ```
 
+**Optional host permissions (`https://api.openai.com/*`, `https://openrouter.ai/*`,
+`https://*/*`, `http://localhost/*`, `http://127.0.0.1/*`)**
+```
+The extension transcribes through a provider the user chooses and pays for with
+their own API key. Only the default provider's domain is a required permission;
+every other one is optional and requested at runtime, from the options page, for
+the single origin the user selected.
+
+The broad https pattern exists because the user can point the extension at a
+self-hosted, OpenAI-compatible transcription server — its address cannot be known
+in advance and cannot be enumerated in the manifest. The extension never requests
+that pattern: it requests exactly the one origin derived from the URL the user
+typed, so Chrome's prompt names that host and nothing else. No page content is
+read from these hosts, and no request is made to any host the user has not
+configured.
+
+The localhost patterns cover a transcription model running on the user's own
+machine, which is the configuration where no audio leaves the device at all.
+```
+
 **Content scripts on `https://web.whatsapp.com/*`**
 ```
 The extension only works on WhatsApp Web. It reads the message list to find voice
@@ -162,7 +188,7 @@ sensitive category — under-declaring it is what gets a listing taken down.
 | Personally identifiable information | No |
 | Health information | No |
 | Financial and payment information | No |
-| Authentication information | **Yes** — the user's own Groq API key, stored locally |
+| Authentication information | **Yes** — the user's own API keys, one per provider, stored locally |
 | Personal communications | **Yes** — the audio of voice notes the user chooses to transcribe, and the resulting text |
 | Location | No |
 | Web history | No |
@@ -177,9 +203,11 @@ Certifications to tick:
 - Data is **not** used or transferred to determine creditworthiness or for
   lending purposes
 
-Note on the third-party transfer: the audio is sent to Groq solely to produce the
-transcript the user requested, using the user's own credentials. This is the
-single purpose of the extension, not an unrelated use.
+Note on the third-party transfer: the audio is sent to the transcription provider
+the user chose, solely to produce the transcript they requested, using their own
+credentials. This is the single purpose of the extension, not an unrelated use.
+When the configured endpoint is on the user's own machine, no transfer to a third
+party happens at all.
 
 ## Single purpose statement
 

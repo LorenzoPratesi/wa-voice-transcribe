@@ -17,6 +17,8 @@ FILES=(
   inject.js
   content.js
   background.js
+  providers.js
+  settings.js
   options.html
   options.js
   styles.css
@@ -34,22 +36,7 @@ for d in "${DIRS[@]}"; do
 done
 
 # Fail early rather than have the store reject the upload.
-python3 - <<'PY'
-import json, sys
-m = json.load(open('manifest.json'))
-assert m['manifest_version'] == 3, 'manifest_version must be 3'
-assert not m['name'].startswith('__MSG_') or m.get('default_locale'), 'default_locale required for __MSG__ name'
-for size in ('16', '32', '48', '128'):
-    assert size in m.get('icons', {}), f'missing {size}px icon'
-desc_key = m['description']
-if desc_key.startswith('__MSG_'):
-    key = desc_key[6:-2]
-    desc = json.load(open('_locales/%s/messages.json' % m['default_locale']))[key]['message']
-else:
-    desc = desc_key
-assert len(desc) <= 132, 'description is %d chars, the store allows 132' % len(desc)
-print('  manifest ok — description %d/132 chars' % len(desc))
-PY
+python3 scripts/preflight.py "${FILES[@]}"
 
 rm -rf build && mkdir -p build
 zip -q -r "$OUT" "${FILES[@]}" "${DIRS[@]}" -x '*.DS_Store'

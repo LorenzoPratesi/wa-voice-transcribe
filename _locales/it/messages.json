@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-    "message": "Trascrive i messaggi vocali di WhatsApp Web con Groq Whisper, direttamente nella bubble.",
+    "message": "Trascrive i vocali di WhatsApp Web nella bubble. Groq, OpenAI o un endpoint tuo.",
     "description": "Extension description"
   },
   "actionTranscribe": {
@@ -72,37 +72,41 @@
     "description": "Abstract engine called directly"
   },
   "errNoApiKey": {
-    "message": "Chiave API Groq non configurata.",
-    "description": "No key saved in options"
+    "message": "Chiave API non configurata.",
+    "description": "No key saved for the selected provider"
   },
   "errBadApiKey": {
     "message": "Chiave API mancante o errata.",
     "description": "HTTP 401 or 403"
   },
   "errRateLimit": {
-    "message": "Limite di richieste Groq raggiunto: riprova tra poco.",
+    "message": "Limite di richieste raggiunto: riprova tra poco.",
     "description": "HTTP 429"
   },
   "errAudioTooLarge": {
-    "message": "Audio troppo grande per il piano free (max 25 MB).",
+    "message": "Audio troppo grande per il limite del provider.",
     "description": "HTTP 413"
   },
   "errAudioTooLargeLocal": {
-    "message": "Audio troppo grande: $SIZE$ MB, il limite è 25 MB.",
+    "message": "Audio troppo grande: $SIZE$ MB, il limite è $LIMIT$ MB.",
     "description": "Checked before sending",
     "placeholders": {
       "SIZE": {
         "content": "$1",
         "example": "26.0"
+      },
+      "LIMIT": {
+        "content": "$2",
+        "example": "25.0"
       }
     }
   },
   "errNetwork": {
-    "message": "Errore di rete verso Groq: controlla la connessione e riprova.",
-    "description": "fetch threw"
+    "message": "Errore di rete verso il servizio di trascrizione: controlla la connessione e riprova.",
+    "description": "fetch threw — also covers a missing host permission"
   },
   "errBadResponse": {
-    "message": "Risposta di Groq non leggibile.",
+    "message": "Il servizio ha restituito una risposta non leggibile.",
     "description": "Body was not JSON"
   },
   "errEmptyTranscription": {
@@ -110,7 +114,7 @@
     "description": "API returned empty text"
   },
   "errHttp": {
-    "message": "Groq ha risposto $STATUS$$DETAIL$",
+    "message": "Il servizio ha risposto $STATUS$$DETAIL$",
     "description": "Any other HTTP error",
     "placeholders": {
       "STATUS": {
@@ -124,16 +128,16 @@
     }
   },
   "optSubtitle": {
-    "message": "Trascrizione dei vocali di WhatsApp Web tramite Groq Whisper.",
+    "message": "Trascrizione dei vocali di WhatsApp Web, con il provider che preferisci.",
     "description": "Options page subtitle"
   },
   "optApiKey": {
-    "message": "Chiave API Groq",
+    "message": "Chiave API",
     "description": "Field label"
   },
   "optApiKeyHelpBefore": {
-    "message": "Si crea gratis su",
-    "description": "Text before the console.groq.com link"
+    "message": "Si crea su",
+    "description": "Text before the provider key link"
   },
   "optApiKeyHelpAfter": {
     "message": "Resta solo in chrome.storage.local, su questo computer.",
@@ -254,5 +258,57 @@
         "example": "12"
       }
     }
+  },
+  "optProvider": {
+    "message": "Provider",
+    "description": "Field label: which transcription service to use"
+  },
+  "optProviderHelp": {
+    "message": "Qualunque servizio che parli le API di trascrizione audio di OpenAI. Ogni provider conserva la propria chiave.",
+    "description": "Help text under the provider selector"
+  },
+  "optBaseUrl": {
+    "message": "URL base dell’endpoint",
+    "description": "Field label, custom provider only"
+  },
+  "optBaseUrlHelp": {
+    "message": "La base compatibile OpenAI, per esempio https://mio-server/v1 — l’estensione aggiunge /audio/transcriptions. http semplice è ammesso solo per localhost.",
+    "description": "Help text for the base URL field"
+  },
+  "optBaseUrlEmpty": {
+    "message": "Inserisci l’URL dell’endpoint.",
+    "description": "Validation"
+  },
+  "optBaseUrlMalformed": {
+    "message": "Non è un URL valido.",
+    "description": "Validation"
+  },
+  "optBaseUrlInsecure": {
+    "message": "http semplice è ammesso solo per localhost — altrove la chiave API viaggerebbe in chiaro.",
+    "description": "Validation"
+  },
+  "optModelPlaceholder": {
+    "message": "nome del modello",
+    "description": "Placeholder for the custom model field"
+  },
+  "optGrantAccess": {
+    "message": "Concedi l’accesso",
+    "description": "Button that requests the host permission"
+  },
+  "optAccessGranted": {
+    "message": "Accesso concesso.",
+    "description": "Permission status"
+  },
+  "optAccessNeeded": {
+    "message": "Questo provider richiede il tuo permesso prima che l’estensione possa contattarlo.",
+    "description": "Permission status"
+  },
+  "optAccessDenied": {
+    "message": "Permesso non concesso.",
+    "description": "Permission status"
+  },
+  "errNoBaseUrl": {
+    "message": "Nessun URL di endpoint impostato per il provider personalizzato.",
+    "description": "Custom provider selected but no base URL saved"
   }
 }

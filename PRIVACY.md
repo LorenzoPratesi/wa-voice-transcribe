@@ -8,21 +8,31 @@ messages. This document describes exactly what it does with your data.
 **The audio of the voice notes you choose to transcribe**, and nothing else.
 
 When you click **Transcribe** on a voice message, the extension reads the already
-decrypted audio from the page's memory and sends it to the Groq API
-(`https://api.groq.com/openai/v1/audio/transcriptions`) for transcription. The
-response — the text — comes back and is shown in the bubble.
+decrypted audio from the page's memory and sends it to **the transcription
+provider you configured** — Groq, OpenAI, or an endpoint of your own. The response
+— the text — comes back and is shown in the bubble.
+
+If you point the extension at a server running on your own machine
+(`http://localhost:…`), the audio never leaves it.
 
 This happens only for voice notes you explicitly click. Nothing is transcribed
 automatically, and no other message, contact, chat name or metadata is ever read
 or transmitted.
 
-Groq's handling of that audio is governed by their own terms and privacy policy:
-<https://groq.com/privacy-policy/>
+Whoever runs the endpoint you chose handles that audio under their own terms. For
+the presets:
+
+- Groq — <https://groq.com/privacy-policy/>
+- OpenAI — <https://openai.com/policies/privacy-policy/>
+
+The extension author is not one of them, and has no visibility into any of it.
 
 ## What stays on your computer
 
-**Your API key.** It is stored in `chrome.storage.local` and is used only as the
-`Authorization` header of the request to Groq. It is never sent anywhere else.
+**Your API keys.** Each provider's key is stored separately in
+`chrome.storage.local` and used only as the `Authorization` header of the request
+to that provider. A key is never sent anywhere else, and never to a provider it
+does not belong to.
 
 **The transcripts.** Each one is stored in `chrome.storage.local` under
 `t:<message-id>`, so that clicking the same voice note again costs no network
@@ -42,9 +52,9 @@ Uninstalling the extension removes everything it stored.
 ## What the author receives
 
 **Nothing.** There is no analytics, no telemetry, no error reporting, and no
-server operated by this project. Each user supplies their own Groq API key, so the
-audio goes directly from your browser to Groq. The author has no access to your
-key, your audio, or your transcripts.
+server operated by this project. Each user supplies their own API key, so the
+audio goes directly from your browser to the provider you chose. The author has no
+access to your keys, your audio, or your transcripts.
 
 ## What the extension does on the page
 
@@ -64,5 +74,6 @@ WhatsApp's servers.
 | `storage` | to save your settings and the transcript cache |
 | `alarms` | to run the periodic cleanup of expired transcripts |
 | `clipboardWrite` | for the **Copy** button's fallback path |
-| `https://api.groq.com/*` | to send the audio for transcription |
+| `https://api.groq.com/*` | to send the audio to Groq, the default provider |
+| *optional* host permissions | to reach any other provider you select — requested only when you select it, one origin at a time, and never granted in advance |
 | content scripts on `https://web.whatsapp.com/*` | to add the UI and read the audio |

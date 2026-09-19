@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "__MSG_extDesc__",
   "default_locale": "en",
   "minimum_chrome_version": "111",
@@ -19,9 +19,17 @@
   "host_permissions": [
     "https://api.groq.com/*"
   ],
+  "optional_host_permissions": [
+    "https://api.openai.com/*",
+    "https://openrouter.ai/*",
+    "https://*/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
   "options_page": "options.html",
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {

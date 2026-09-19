@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-    "message": "Transcribe WhatsApp Web voice messages with Groq Whisper, right in the bubble.",
+    "message": "Transcribe WhatsApp Web voice messages in the bubble. Groq, OpenAI or your own endpoint.",
     "description": "Extension description"
   },
   "actionTranscribe": {
@@ -72,37 +72,41 @@
     "description": "Abstract engine called directly"
   },
   "errNoApiKey": {
-    "message": "Groq API key not configured.",
-    "description": "No key saved in options"
+    "message": "API key not configured.",
+    "description": "No key saved for the selected provider"
   },
   "errBadApiKey": {
     "message": "API key missing or wrong.",
     "description": "HTTP 401 or 403"
   },
   "errRateLimit": {
-    "message": "Groq rate limit reached: try again shortly.",
+    "message": "Rate limit reached: try again shortly.",
     "description": "HTTP 429"
   },
   "errAudioTooLarge": {
-    "message": "Audio too large for the free tier (25 MB max).",
+    "message": "Audio too large for the provider's limit.",
     "description": "HTTP 413"
   },
   "errAudioTooLargeLocal": {
-    "message": "Audio too large: $SIZE$ MB, the limit is 25 MB.",
+    "message": "Audio too large: $SIZE$ MB, the limit is $LIMIT$ MB.",
     "description": "Checked before sending",
     "placeholders": {
       "SIZE": {
         "content": "$1",
         "example": "26.0"
+      },
+      "LIMIT": {
+        "content": "$2",
+        "example": "25.0"
       }
     }
   },
   "errNetwork": {
-    "message": "Network error reaching Groq: check your connection and try again.",
-    "description": "fetch threw"
+    "message": "Network error reaching the transcription service: check your connection and try again.",
+    "description": "fetch threw — also covers a missing host permission"
   },
   "errBadResponse": {
-    "message": "Groq returned an unreadable response.",
+    "message": "The service returned an unreadable response.",
     "description": "Body was not JSON"
   },
   "errEmptyTranscription": {
@@ -110,7 +114,7 @@
     "description": "API returned empty text"
   },
   "errHttp": {
-    "message": "Groq returned $STATUS$$DETAIL$",
+    "message": "The service returned $STATUS$$DETAIL$",
     "description": "Any other HTTP error",
     "placeholders": {
       "STATUS": {
@@ -124,16 +128,16 @@
     }
   },
   "optSubtitle": {
-    "message": "Transcription of WhatsApp Web voice messages via Groq Whisper.",
+    "message": "Transcription of WhatsApp Web voice messages, using the provider of your choice.",
     "description": "Options page subtitle"
   },
   "optApiKey": {
-    "message": "Groq API key",
+    "message": "API key",
     "description": "Field label"
   },
   "optApiKeyHelpBefore": {
-    "message": "Create one for free at",
-    "description": "Text before the console.groq.com link"
+    "message": "Create one at",
+    "description": "Text before the provider key link"
   },
   "optApiKeyHelpAfter": {
     "message": "It is stored only in chrome.storage.local, on this computer.",
@@ -254,5 +258,57 @@
         "example": "12"
       }
     }
+  },
+  "optProvider": {
+    "message": "Provider",
+    "description": "Field label: which transcription service to use"
+  },
+  "optProviderHelp": {
+    "message": "Any service that speaks the OpenAI audio transcription API. Each provider keeps its own key.",
+    "description": "Help text under the provider selector"
+  },
+  "optBaseUrl": {
+    "message": "Endpoint base URL",
+    "description": "Field label, custom provider only"
+  },
+  "optBaseUrlHelp": {
+    "message": "The OpenAI-compatible base, for example https://my-server/v1 — the extension appends /audio/transcriptions. Plain http is allowed only for localhost.",
+    "description": "Help text for the base URL field"
+  },
+  "optBaseUrlEmpty": {
+    "message": "Enter the endpoint URL.",
+    "description": "Validation"
+  },
+  "optBaseUrlMalformed": {
+    "message": "That is not a valid URL.",
+    "description": "Validation"
+  },
+  "optBaseUrlInsecure": {
+    "message": "Plain http is allowed only for localhost — elsewhere the API key would travel unencrypted.",
+    "description": "Validation"
+  },
+  "optModelPlaceholder": {
+    "message": "model name",
+    "description": "Placeholder for the custom model field"
+  },
+  "optGrantAccess": {
+    "message": "Grant access",
+    "description": "Button that requests the host permission"
+  },
+  "optAccessGranted": {
+    "message": "Access granted.",
+    "description": "Permission status"
+  },
+  "optAccessNeeded": {
+    "message": "This provider needs your permission before the extension can contact it.",
+    "description": "Permission status"
+  },
+  "optAccessDenied": {
+    "message": "Permission was not granted.",
+    "description": "Permission status"
+  },
+  "errNoBaseUrl": {
+    "message": "No endpoint URL set for the custom provider.",
+    "description": "Custom provider selected but no base URL saved"
   }
 }
