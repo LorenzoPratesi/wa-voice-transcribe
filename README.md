@@ -300,5 +300,18 @@ const ENGINES = { groq: OpenAICompatibleEngine, deepgram: DeepgramEngine };
 ## Translating
 
 Message catalogs live in `_locales/<lang>/messages.json`. `en` is the default
-locale; `it` is included. Adding a language means copying `_locales/en` and
-translating the `message` values.
+locale, and the UI ships in **English, Italian, Spanish, French, German and
+Portuguese** — Chrome picks whichever matches the browser and falls back to
+English.
+
+Adding a language means copying `_locales/en` and translating the `message`
+values. Leave alone:
+
+- `extName` — the product name
+- the `$TOKEN$` placeholders, which carry numbers and error text into the string
+- technical strings such as `chrome.storage.local`, `/audio/transcriptions`,
+  `ISO-639-1` and the model names
+
+`scripts/preflight.py` enforces all of that before a package is built: it fails
+if a locale is missing a key, drops a placeholder, or has a description over the
+store's 132 character limit.

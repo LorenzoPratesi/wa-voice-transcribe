@@ -1,0 +1,314 @@
+{
+  "extName": {
+    "message": "WA Voice Transcribe",
+    "description": "Extension name"
+  },
+  "extDesc": {
+    "message": "Transcrivez les messages vocaux de WhatsApp Web dans la bulle. Groq, OpenAI ou votre propre endpoint.",
+    "description": "Extension description"
+  },
+  "actionTranscribe": {
+    "message": "Transcrire",
+    "description": "Link shown on a voice note that has no transcript yet"
+  },
+  "actionShow": {
+    "message": "Afficher la transcription",
+    "description": "Link that reopens a collapsed transcript"
+  },
+  "actionRetry": {
+    "message": "Réessayer",
+    "description": "Link shown after a failure"
+  },
+  "actionCopy": {
+    "message": "Copier",
+    "description": "Copies the transcript to the clipboard"
+  },
+  "actionCopied": {
+    "message": "Copié",
+    "description": "Brief confirmation after copying"
+  },
+  "actionCopyFailed": {
+    "message": "Échec",
+    "description": "Brief notice when copying did not work"
+  },
+  "actionHide": {
+    "message": "Masquer",
+    "description": "Collapses the transcript without deleting it"
+  },
+  "actionOpenOptions": {
+    "message": "Ouvrir les options",
+    "description": "Link in the error message, opens the options page"
+  },
+  "statusWorking": {
+    "message": "Transcription en cours…",
+    "description": "Shown next to the spinner"
+  },
+  "errPageNoResponse": {
+    "message": "La page n’a pas répondu.",
+    "description": "Bridge timeout"
+  },
+  "errPlaybackDidNotStart": {
+    "message": "La lecture n’a pas démarré : lancez le vocal manuellement puis recliquez.",
+    "description": "No audio began playing"
+  },
+  "errAudioUnavailable": {
+    "message": "Impossible de récupérer l’audio depuis la page.",
+    "description": "The blob could not be resolved"
+  },
+  "errNoControl": {
+    "message": "Commande de lecture introuvable.",
+    "description": "The play button could not be located in the message row"
+  },
+  "errBadAudioFormat": {
+    "message": "Format audio inattendu.",
+    "description": "Malformed data URL"
+  },
+  "errNoExtensionResponse": {
+    "message": "Aucune réponse de l’extension : rechargez la page.",
+    "description": "Service worker did not answer"
+  },
+  "errEngineNotImplemented": {
+    "message": "Moteur de transcription non implémenté.",
+    "description": "Abstract engine called directly"
+  },
+  "errNoApiKey": {
+    "message": "Clé API non configurée.",
+    "description": "No key saved for the selected provider"
+  },
+  "errBadApiKey": {
+    "message": "Clé API manquante ou incorrecte.",
+    "description": "HTTP 401 or 403"
+  },
+  "errRateLimit": {
+    "message": "Limite de requêtes atteinte : réessayez dans un instant.",
+    "description": "HTTP 429"
+  },
+  "errAudioTooLarge": {
+    "message": "Audio trop volumineux pour la limite du fournisseur.",
+    "description": "HTTP 413"
+  },
+  "errAudioTooLargeLocal": {
+    "message": "Audio trop volumineux : $SIZE$ Mo, la limite est de $LIMIT$ Mo.",
+    "description": "Checked before sending",
+    "placeholders": {
+      "SIZE": {
+        "content": "$1",
+        "example": "26.0"
+      },
+      "LIMIT": {
+        "content": "$2",
+        "example": "25.0"
+      }
+    }
+  },
+  "errNetwork": {
+    "message": "Erreur réseau vers le service de transcription : vérifiez votre connexion et réessayez.",
+    "description": "fetch threw — also covers a missing host permission"
+  },
+  "errBadResponse": {
+    "message": "Le service a renvoyé une réponse illisible.",
+    "description": "Body was not JSON"
+  },
+  "errEmptyTranscription": {
+    "message": "Transcription vide : le vocal ne contient peut-être aucune parole.",
+    "description": "API returned empty text"
+  },
+  "errHttp": {
+    "message": "Le service a répondu $STATUS$$DETAIL$",
+    "description": "Any other HTTP error",
+    "placeholders": {
+      "STATUS": {
+        "content": "$1",
+        "example": "500"
+      },
+      "DETAIL": {
+        "content": "$2",
+        "example": ": internal"
+      }
+    }
+  },
+  "optSubtitle": {
+    "message": "Transcription des messages vocaux de WhatsApp Web, avec le fournisseur de votre choix.",
+    "description": "Options page subtitle"
+  },
+  "optApiKey": {
+    "message": "Clé API",
+    "description": "Field label"
+  },
+  "optApiKeyHelpBefore": {
+    "message": "Créez-en une sur",
+    "description": "Text before the provider key link"
+  },
+  "optApiKeyHelpAfter": {
+    "message": "Elle est stockée uniquement dans chrome.storage.local, sur cet ordinateur.",
+    "description": "Text after the link"
+  },
+  "optLanguage": {
+    "message": "Langue des vocaux",
+    "description": "Field label"
+  },
+  "optLanguageHelp": {
+    "message": "Code ISO-639-1 : fr, en, es… Laissez vide pour la détection automatique.",
+    "description": "Help text"
+  },
+  "optModel": {
+    "message": "Modèle",
+    "description": "Field label"
+  },
+  "optModelTurbo": {
+    "message": "whisper-large-v3-turbo (rapide, recommandé)",
+    "description": "Model option"
+  },
+  "optModelLarge": {
+    "message": "whisper-large-v3 (plus précis, plus lent)",
+    "description": "Model option"
+  },
+  "optRetention": {
+    "message": "Conserver les transcriptions",
+    "description": "Field label"
+  },
+  "optRetentionHelp": {
+    "message": "Passé ce délai, elles sont supprimées automatiquement. Le nettoyage s’exécute au démarrage du navigateur puis toutes les 12 heures ; les entrées expirées sont écartées dès que le message réapparaît. Un vocal dont la transcription a expiré doit simplement être retranscrit.",
+    "description": "Help text"
+  },
+  "retentionForever": {
+    "message": "Toujours",
+    "description": "Retention option"
+  },
+  "retention7": {
+    "message": "7 jours",
+    "description": "Retention option"
+  },
+  "retention30": {
+    "message": "30 jours",
+    "description": "Retention option"
+  },
+  "retention90": {
+    "message": "90 jours",
+    "description": "Retention option"
+  },
+  "retention365": {
+    "message": "1 an",
+    "description": "Retention option"
+  },
+  "optSave": {
+    "message": "Enregistrer",
+    "description": "Button"
+  },
+  "optSaved": {
+    "message": "Paramètres enregistrés.",
+    "description": "Confirmation"
+  },
+  "optSavedNoKey": {
+    "message": "Enregistré, mais sans clé API la transcription ne démarrera pas.",
+    "description": "Warning on save"
+  },
+  "optSaveFailed": {
+    "message": "Échec de l’enregistrement : $ERROR$",
+    "description": "Error on save",
+    "placeholders": {
+      "ERROR": {
+        "content": "$1",
+        "example": "quota exceeded"
+      }
+    }
+  },
+  "optClearCache": {
+    "message": "Vider le cache des transcriptions",
+    "description": "Button"
+  },
+  "optCacheAlreadyEmpty": {
+    "message": "Le cache était déjà vide.",
+    "description": "Notice"
+  },
+  "optCacheCleared": {
+    "message": "$COUNT$ transcriptions supprimées.",
+    "description": "Confirmation",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "optClearFailed": {
+    "message": "Échec du nettoyage : $ERROR$",
+    "description": "Error",
+    "placeholders": {
+      "ERROR": {
+        "content": "$1",
+        "example": "unavailable"
+      }
+    }
+  },
+  "optCacheCountNone": {
+    "message": "Aucune transcription en cache.",
+    "description": "Counter"
+  },
+  "optCacheCountOne": {
+    "message": "1 transcription en cache.",
+    "description": "Counter"
+  },
+  "optCacheCountMany": {
+    "message": "$COUNT$ transcriptions en cache.",
+    "description": "Counter",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "optProvider": {
+    "message": "Fournisseur",
+    "description": "Field label: which transcription service to use"
+  },
+  "optProviderHelp": {
+    "message": "Tout service compatible avec l’API de transcription audio d’OpenAI. Chaque fournisseur conserve sa propre clé.",
+    "description": "Help text under the provider selector"
+  },
+  "optBaseUrl": {
+    "message": "URL de base de l’endpoint",
+    "description": "Field label, custom provider only"
+  },
+  "optBaseUrlHelp": {
+    "message": "La base compatible OpenAI, par exemple https://mon-serveur/v1 — l’extension ajoute /audio/transcriptions. Le http simple n’est autorisé que pour localhost.",
+    "description": "Help text for the base URL field"
+  },
+  "optBaseUrlEmpty": {
+    "message": "Saisissez l’URL de l’endpoint.",
+    "description": "Validation"
+  },
+  "optBaseUrlMalformed": {
+    "message": "Ce n’est pas une URL valide.",
+    "description": "Validation"
+  },
+  "optBaseUrlInsecure": {
+    "message": "Le http simple n’est autorisé que pour localhost — ailleurs, la clé API circulerait en clair.",
+    "description": "Validation"
+  },
+  "optModelPlaceholder": {
+    "message": "nom du modèle",
+    "description": "Placeholder for the custom model field"
+  },
+  "optGrantAccess": {
+    "message": "Autoriser l’accès",
+    "description": "Button that requests the host permission"
+  },
+  "optAccessGranted": {
+    "message": "Accès autorisé.",
+    "description": "Permission status"
+  },
+  "optAccessNeeded": {
+    "message": "Ce fournisseur nécessite votre autorisation avant que l’extension puisse le contacter.",
+    "description": "Permission status"
+  },
+  "optAccessDenied": {
+    "message": "L’autorisation n’a pas été accordée.",
+    "description": "Permission status"
+  },
+  "errNoBaseUrl": {
+    "message": "Aucune URL d’endpoint définie pour le fournisseur personnalisé.",
+    "description": "Custom provider selected but no base URL saved"
+  }
+}

@@ -48,11 +48,26 @@ def check_locales():
     for name, catalog in catalogs.items():
         missing = sorted(set(reference) - set(catalog))
         assert not missing, '%s is missing: %s' % (name, ', '.join(missing))
+
         mismatched = sorted(
             key for key in reference
             if ('placeholders' in reference[key]) != ('placeholders' in catalog[key])
         )
         assert not mismatched, '%s has mismatched placeholders: %s' % (name, ', '.join(mismatched))
+
+        # A translator can drop a $TOKEN$ without noticing; the message then
+        # renders with a hole in it instead of the number or the error text.
+        for key, entry in reference.items():
+            for token in entry.get('placeholders', {}):
+                marker = '$%s$' % token
+                assert marker in catalog[key]['message'], \
+                    '%s: %s lost the %s placeholder' % (name, key, marker)
+
+        # The store applies the 132 character limit to each locale's description,
+        # not just the default one.
+        described = catalog['extDesc']['message']
+        assert len(described) <= 132, \
+            '%s description is %d characters, the store allows 132' % (name, len(described))
 
     print('  locales ok — %d messages in %s' % (len(reference), ', '.join(locales)))
 

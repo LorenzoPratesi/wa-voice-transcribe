@@ -37,6 +37,11 @@ Changing it here does not change the manifest; to keep the two in sync, edit
 
 Productivity
 
+## Languages
+
+The listing can declare: English (default), Italian, Spanish, French, German,
+Portuguese. The UI is translated in all six; `_locales/en` is the source of truth.
+
 ## Detailed description
 
 ```
