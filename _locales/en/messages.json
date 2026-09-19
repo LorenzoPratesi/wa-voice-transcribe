@@ -1,0 +1,258 @@
+{
+  "extName": {
+    "message": "WA Voice Transcribe",
+    "description": "Extension name"
+  },
+  "extDesc": {
+    "message": "Transcribe WhatsApp Web voice messages with Groq Whisper, right in the bubble.",
+    "description": "Extension description"
+  },
+  "actionTranscribe": {
+    "message": "Transcribe",
+    "description": "Link shown on a voice note that has no transcript yet"
+  },
+  "actionShow": {
+    "message": "Show transcript",
+    "description": "Link that reopens a collapsed transcript"
+  },
+  "actionRetry": {
+    "message": "Retry",
+    "description": "Link shown after a failure"
+  },
+  "actionCopy": {
+    "message": "Copy",
+    "description": "Copies the transcript to the clipboard"
+  },
+  "actionCopied": {
+    "message": "Copied",
+    "description": "Brief confirmation after copying"
+  },
+  "actionCopyFailed": {
+    "message": "Failed",
+    "description": "Brief notice when copying did not work"
+  },
+  "actionHide": {
+    "message": "Hide",
+    "description": "Collapses the transcript without deleting it"
+  },
+  "actionOpenOptions": {
+    "message": "Open options",
+    "description": "Link in the error message, opens the options page"
+  },
+  "statusWorking": {
+    "message": "Transcribing…",
+    "description": "Shown next to the spinner"
+  },
+  "errPageNoResponse": {
+    "message": "The page did not respond.",
+    "description": "Bridge timeout"
+  },
+  "errPlaybackDidNotStart": {
+    "message": "Playback did not start: play the voice note manually and click again.",
+    "description": "No audio began playing"
+  },
+  "errAudioUnavailable": {
+    "message": "Could not retrieve the audio from the page.",
+    "description": "The blob could not be resolved"
+  },
+  "errNoControl": {
+    "message": "Playback control not found.",
+    "description": "The play button could not be located in the message row"
+  },
+  "errBadAudioFormat": {
+    "message": "Unexpected audio format.",
+    "description": "Malformed data URL"
+  },
+  "errNoExtensionResponse": {
+    "message": "No response from the extension: reload the page.",
+    "description": "Service worker did not answer"
+  },
+  "errEngineNotImplemented": {
+    "message": "Transcription engine not implemented.",
+    "description": "Abstract engine called directly"
+  },
+  "errNoApiKey": {
+    "message": "Groq API key not configured.",
+    "description": "No key saved in options"
+  },
+  "errBadApiKey": {
+    "message": "API key missing or wrong.",
+    "description": "HTTP 401 or 403"
+  },
+  "errRateLimit": {
+    "message": "Groq rate limit reached: try again shortly.",
+    "description": "HTTP 429"
+  },
+  "errAudioTooLarge": {
+    "message": "Audio too large for the free tier (25 MB max).",
+    "description": "HTTP 413"
+  },
+  "errAudioTooLargeLocal": {
+    "message": "Audio too large: $SIZE$ MB, the limit is 25 MB.",
+    "description": "Checked before sending",
+    "placeholders": {
+      "SIZE": {
+        "content": "$1",
+        "example": "26.0"
+      }
+    }
+  },
+  "errNetwork": {
+    "message": "Network error reaching Groq: check your connection and try again.",
+    "description": "fetch threw"
+  },
+  "errBadResponse": {
+    "message": "Groq returned an unreadable response.",
+    "description": "Body was not JSON"
+  },
+  "errEmptyTranscription": {
+    "message": "Empty transcript: the voice note may contain no speech.",
+    "description": "API returned empty text"
+  },
+  "errHttp": {
+    "message": "Groq returned $STATUS$$DETAIL$",
+    "description": "Any other HTTP error",
+    "placeholders": {
+      "STATUS": {
+        "content": "$1",
+        "example": "500"
+      },
+      "DETAIL": {
+        "content": "$2",
+        "example": ": internal"
+      }
+    }
+  },
+  "optSubtitle": {
+    "message": "Transcription of WhatsApp Web voice messages via Groq Whisper.",
+    "description": "Options page subtitle"
+  },
+  "optApiKey": {
+    "message": "Groq API key",
+    "description": "Field label"
+  },
+  "optApiKeyHelpBefore": {
+    "message": "Create one for free at",
+    "description": "Text before the console.groq.com link"
+  },
+  "optApiKeyHelpAfter": {
+    "message": "It is stored only in chrome.storage.local, on this computer.",
+    "description": "Text after the link"
+  },
+  "optLanguage": {
+    "message": "Voice note language",
+    "description": "Field label"
+  },
+  "optLanguageHelp": {
+    "message": "ISO-639-1 code: en, it, es… Leave empty for automatic detection.",
+    "description": "Help text"
+  },
+  "optModel": {
+    "message": "Model",
+    "description": "Field label"
+  },
+  "optModelTurbo": {
+    "message": "whisper-large-v3-turbo (fast, recommended)",
+    "description": "Model option"
+  },
+  "optModelLarge": {
+    "message": "whisper-large-v3 (more accurate, slower)",
+    "description": "Model option"
+  },
+  "optRetention": {
+    "message": "Keep transcripts",
+    "description": "Field label"
+  },
+  "optRetentionHelp": {
+    "message": "After this period they are deleted automatically. The sweep runs at browser start and every 12 hours; expired entries are discarded as soon as the message comes back into view. A voice note with an expired transcript simply needs transcribing again.",
+    "description": "Help text"
+  },
+  "retentionForever": {
+    "message": "Forever",
+    "description": "Retention option"
+  },
+  "retention7": {
+    "message": "7 days",
+    "description": "Retention option"
+  },
+  "retention30": {
+    "message": "30 days",
+    "description": "Retention option"
+  },
+  "retention90": {
+    "message": "90 days",
+    "description": "Retention option"
+  },
+  "retention365": {
+    "message": "1 year",
+    "description": "Retention option"
+  },
+  "optSave": {
+    "message": "Save",
+    "description": "Button"
+  },
+  "optSaved": {
+    "message": "Settings saved.",
+    "description": "Confirmation"
+  },
+  "optSavedNoKey": {
+    "message": "Saved, but without an API key transcription will not start.",
+    "description": "Warning on save"
+  },
+  "optSaveFailed": {
+    "message": "Could not save: $ERROR$",
+    "description": "Error on save",
+    "placeholders": {
+      "ERROR": {
+        "content": "$1",
+        "example": "quota exceeded"
+      }
+    }
+  },
+  "optClearCache": {
+    "message": "Clear transcript cache",
+    "description": "Button"
+  },
+  "optCacheAlreadyEmpty": {
+    "message": "The cache was already empty.",
+    "description": "Notice"
+  },
+  "optCacheCleared": {
+    "message": "$COUNT$ transcripts removed.",
+    "description": "Confirmation",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "optClearFailed": {
+    "message": "Could not clear: $ERROR$",
+    "description": "Error",
+    "placeholders": {
+      "ERROR": {
+        "content": "$1",
+        "example": "unavailable"
+      }
+    }
+  },
+  "optCacheCountNone": {
+    "message": "No transcripts cached.",
+    "description": "Counter"
+  },
+  "optCacheCountOne": {
+    "message": "1 transcript cached.",
+    "description": "Counter"
+  },
+  "optCacheCountMany": {
+    "message": "$COUNT$ transcripts cached.",
+    "description": "Counter",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title data-i18n="extName">WA Voice Transcribe</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      max-width: 440px;
+      margin: 32px auto;
+      padding: 0 20px 40px;
+    }
+    h1 { font-size: 18px; margin: 0 0 4px; }
+    p.sub { margin: 0 0 24px; opacity: .7; }
+    label { display: block; font-weight: 600; margin: 18px 0 6px; }
+    input, select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 10px;
+      font: inherit;
+      border: 1px solid rgba(127,127,127,.45);
+      border-radius: 6px;
+      background: transparent;
+      color: inherit;
+    }
+    small { display: block; margin-top: 6px; opacity: .65; }
+    a { color: inherit; }
+    .row { display: flex; align-items: center; gap: 12px; margin-top: 24px; }
+    button {
+      font: inherit;
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid rgba(127,127,127,.45);
+      background: rgba(127,127,127,.12);
+      color: inherit;
+      cursor: pointer;
+    }
+    button:hover { background: rgba(127,127,127,.22); }
+    button.primary { border-color: transparent; background: #21c063; color: #0a0a0a; }
+    button.primary:hover { background: #1daa61; }
+    .status { min-height: 20px; margin-top: 10px; font-size: 13px; opacity: 0; transition: opacity .15s ease; }
+    .status.show { opacity: 1; }
+    .status.err { color: #c0392b; }
+    hr { border: 0; border-top: 1px solid rgba(127,127,127,.25); margin: 28px 0 0; }
+  </style>
+</head>
+<body>
+  <h1 data-i18n="extName">WA Voice Transcribe</h1>
+  <p class="sub" data-i18n="optSubtitle"></p>
+
+  <label for="apiKey" data-i18n="optApiKey"></label>
+  <input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="gsk_…">
+  <small>
+    <span data-i18n="optApiKeyHelpBefore"></span>
+    <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>.
+    <span data-i18n="optApiKeyHelpAfter"></span>
+  </small>
+
+  <label for="language" data-i18n="optLanguage"></label>
+  <input id="language" type="text" autocomplete="off" spellcheck="false" placeholder="auto">
+  <small data-i18n="optLanguageHelp"></small>
+
+  <label for="model" data-i18n="optModel"></label>
+  <select id="model">
+    <option value="whisper-large-v3-turbo" data-i18n="optModelTurbo"></option>
+    <option value="whisper-large-v3" data-i18n="optModelLarge"></option>
+  </select>
+
+  <label for="ttlDays" data-i18n="optRetention"></label>
+  <select id="ttlDays">
+    <option value="0" data-i18n="retentionForever"></option>
+    <option value="7" data-i18n="retention7"></option>
+    <option value="30" data-i18n="retention30"></option>
+    <option value="90" data-i18n="retention90"></option>
+    <option value="365" data-i18n="retention365"></option>
+  </select>
+  <small data-i18n="optRetentionHelp"></small>
+
+  <div class="row">
+    <button id="save" class="primary" type="button" data-i18n="optSave"></button>
+  </div>
+  <div id="status" class="status"></div>
+
+  <hr>
+
+  <div class="row">
+    <button id="clear" type="button" data-i18n="optClearCache"></button>
+  </div>
+  <div id="cacheStatus" class="status"></div>
+  <small id="cacheCount"></small>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+/*
+ * WA Voice Transcribe — styles.css
+ *
+ * The UI mirrors WhatsApp's own transcript UI: no chrome around the controls,
+ * just green links; the text rendered like a normal message inside the same
+ * bubble, in quotes; a dimmed row of actions underneath.
+ *
+ * Colours come from the design tokens WhatsApp Web exposes on :root (--WDS-*,
+ * --message-primary, …): using those instead of fixed values makes the UI follow
+ * the light and dark themes on its own. The fallbacks only matter if WhatsApp
+ * ever renames a token.
+ *
+ * Everything is prefixed .wa-vt- so it cannot collide with WhatsApp's classes.
+ */
+
+.wa-vt-wrap {
+  display: block;
+  box-sizing: border-box;
+
+  /* WhatsApp's bubble is sized by its content (shrink-to-fit): a long text would
+     stretch it to its max-width, far beyond the player's width. With `width: 0`
+     this block contributes 0 to the container's intrinsic width, and
+     `min-width: 100%` then makes it fill whatever width the bubble settled on by
+     itself. Result: the transcript wraps inside the bubble without ever
+     widening it. */
+  width: 0;
+  min-width: 100%;
+
+  /* Breathing room above, plus a slight left indent.
+     Padding and NOT margin: being the container's last child, a vertical margin
+     collapses with the container's own (margin collapsing) and ends up outside
+     the bubble instead of creating space. Padding never collapses.
+     Note: the left padding adds to the bubble's own and, with
+     `width: 0; min-width: 100%` and `box-sizing: border-box`, takes exactly that
+     many pixels off the text width. At 5px the text is 5px narrower than the
+     player: that is intentional, for the indent. */
+  padding: 5px 0px 0px 5px;
+}
+
+/* Hidden elements have to be forced: `all: unset` on the buttons also wipes the
+   browser's [hidden] rule, and status/foot are flex. */
+.wa-vt-wrap [hidden] {
+  display: none !important;
+}
+
+/* ---- green link, no chrome: the native "Transcribe" look ---- */
+
+.wa-vt-action {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-block;
+  cursor: pointer;
+  color: var(--WDS-accent, var(--text-action, #21c063));
+  font-size: 13.5px;
+  line-height: 18px;
+  font-weight: 500;
+}
+
+.wa-vt-action:hover {
+  text-decoration: underline;
+}
+
+.wa-vt-action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ---- loading and error states ---- */
+
+.wa-vt-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--WDS-systems-bubble-content-deemphasized, var(--secondary, rgba(127, 127, 127, .8)));
+  font-size: 13.5px;
+  line-height: 18px;
+}
+
+.wa-vt-status.wa-vt-err {
+  color: var(--WDS-secondary-negative, #fb5061);
+}
+
+.wa-vt-spinner {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: wa-vt-spin .8s linear infinite;
+}
+
+@keyframes wa-vt-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-vt-spinner { animation-duration: 2.4s; }
+}
+
+/* ---- the text, rendered like a normal message ---- */
+
+.wa-vt-text {
+  margin-top: 4px;
+  color: var(--message-primary, var(--primary, inherit));
+  font-size: 14.2px;
+  line-height: 19px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+
+/* ---- dimmed row of actions at the bottom ---- */
+
+.wa-vt-foot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  color: var(--WDS-systems-bubble-content-deemphasized, var(--secondary, rgba(127, 127, 127, .8)));
+}
+
+.wa-vt-foot .wa-vt-action {
+  font-size: 12.5px;
+  line-height: 16px;
+}
+
+.wa-vt-sep {
+  font-size: 12.5px;
+  opacity: .6;
+}

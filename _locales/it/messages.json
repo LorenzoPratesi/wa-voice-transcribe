@@ -1,0 +1,258 @@
+{
+  "extName": {
+    "message": "WA Voice Transcribe",
+    "description": "Extension name"
+  },
+  "extDesc": {
+    "message": "Trascrive i messaggi vocali di WhatsApp Web con Groq Whisper, direttamente nella bubble.",
+    "description": "Extension description"
+  },
+  "actionTranscribe": {
+    "message": "Trascrivi",
+    "description": "Link shown on a voice note that has no transcript yet"
+  },
+  "actionShow": {
+    "message": "Mostra trascrizione",
+    "description": "Link that reopens a collapsed transcript"
+  },
+  "actionRetry": {
+    "message": "Riprova",
+    "description": "Link shown after a failure"
+  },
+  "actionCopy": {
+    "message": "Copia",
+    "description": "Copies the transcript to the clipboard"
+  },
+  "actionCopied": {
+    "message": "Copiato",
+    "description": "Brief confirmation after copying"
+  },
+  "actionCopyFailed": {
+    "message": "Non riuscito",
+    "description": "Brief notice when copying did not work"
+  },
+  "actionHide": {
+    "message": "Nascondi",
+    "description": "Collapses the transcript without deleting it"
+  },
+  "actionOpenOptions": {
+    "message": "Apri le opzioni",
+    "description": "Link in the error message, opens the options page"
+  },
+  "statusWorking": {
+    "message": "Trascrizione in corso…",
+    "description": "Shown next to the spinner"
+  },
+  "errPageNoResponse": {
+    "message": "La pagina non ha risposto.",
+    "description": "Bridge timeout"
+  },
+  "errPlaybackDidNotStart": {
+    "message": "La riproduzione non è partita: avvia il vocale a mano e riclicca.",
+    "description": "No audio began playing"
+  },
+  "errAudioUnavailable": {
+    "message": "Audio non recuperabile dalla pagina.",
+    "description": "The blob could not be resolved"
+  },
+  "errNoControl": {
+    "message": "Controllo di riproduzione non trovato.",
+    "description": "The play button could not be located in the message row"
+  },
+  "errBadAudioFormat": {
+    "message": "Formato audio inatteso.",
+    "description": "Malformed data URL"
+  },
+  "errNoExtensionResponse": {
+    "message": "Nessuna risposta dall’estensione: ricarica la pagina.",
+    "description": "Service worker did not answer"
+  },
+  "errEngineNotImplemented": {
+    "message": "Motore di trascrizione non implementato.",
+    "description": "Abstract engine called directly"
+  },
+  "errNoApiKey": {
+    "message": "Chiave API Groq non configurata.",
+    "description": "No key saved in options"
+  },
+  "errBadApiKey": {
+    "message": "Chiave API mancante o errata.",
+    "description": "HTTP 401 or 403"
+  },
+  "errRateLimit": {
+    "message": "Limite di richieste Groq raggiunto: riprova tra poco.",
+    "description": "HTTP 429"
+  },
+  "errAudioTooLarge": {
+    "message": "Audio troppo grande per il piano free (max 25 MB).",
+    "description": "HTTP 413"
+  },
+  "errAudioTooLargeLocal": {
+    "message": "Audio troppo grande: $SIZE$ MB, il limite è 25 MB.",
+    "description": "Checked before sending",
+    "placeholders": {
+      "SIZE": {
+        "content": "$1",
+        "example": "26.0"
+      }
+    }
+  },
+  "errNetwork": {
+    "message": "Errore di rete verso Groq: controlla la connessione e riprova.",
+    "description": "fetch threw"
+  },
+  "errBadResponse": {
+    "message": "Risposta di Groq non leggibile.",
+    "description": "Body was not JSON"
+  },
+  "errEmptyTranscription": {
+    "message": "Trascrizione vuota: il vocale potrebbe non contenere parlato.",
+    "description": "API returned empty text"
+  },
+  "errHttp": {
+    "message": "Groq ha risposto $STATUS$$DETAIL$",
+    "description": "Any other HTTP error",
+    "placeholders": {
+      "STATUS": {
+        "content": "$1",
+        "example": "500"
+      },
+      "DETAIL": {
+        "content": "$2",
+        "example": ": internal"
+      }
+    }
+  },
+  "optSubtitle": {
+    "message": "Trascrizione dei vocali di WhatsApp Web tramite Groq Whisper.",
+    "description": "Options page subtitle"
+  },
+  "optApiKey": {
+    "message": "Chiave API Groq",
+    "description": "Field label"
+  },
+  "optApiKeyHelpBefore": {
+    "message": "Si crea gratis su",
+    "description": "Text before the console.groq.com link"
+  },
+  "optApiKeyHelpAfter": {
+    "message": "Resta solo in chrome.storage.local, su questo computer.",
+    "description": "Text after the link"
+  },
+  "optLanguage": {
+    "message": "Lingua dei vocali",
+    "description": "Field label"
+  },
+  "optLanguageHelp": {
+    "message": "Codice ISO-639-1: en, it, es… Lascia vuoto per il rilevamento automatico.",
+    "description": "Help text"
+  },
+  "optModel": {
+    "message": "Modello",
+    "description": "Field label"
+  },
+  "optModelTurbo": {
+    "message": "whisper-large-v3-turbo (veloce, consigliato)",
+    "description": "Model option"
+  },
+  "optModelLarge": {
+    "message": "whisper-large-v3 (più accurato, più lento)",
+    "description": "Model option"
+  },
+  "optRetention": {
+    "message": "Conserva le trascrizioni",
+    "description": "Field label"
+  },
+  "optRetentionHelp": {
+    "message": "Oltre questo periodo vengono cancellate da sole. La pulizia gira alla partenza del browser e poi ogni 12 ore; le voci scadute vengono scartate comunque appena il messaggio torna in vista. Un vocale con trascrizione scaduta va semplicemente ritrascritto.",
+    "description": "Help text"
+  },
+  "retentionForever": {
+    "message": "Per sempre",
+    "description": "Retention option"
+  },
+  "retention7": {
+    "message": "7 giorni",
+    "description": "Retention option"
+  },
+  "retention30": {
+    "message": "30 giorni",
+    "description": "Retention option"
+  },
+  "retention90": {
+    "message": "90 giorni",
+    "description": "Retention option"
+  },
+  "retention365": {
+    "message": "1 anno",
+    "description": "Retention option"
+  },
+  "optSave": {
+    "message": "Salva",
+    "description": "Button"
+  },
+  "optSaved": {
+    "message": "Impostazioni salvate.",
+    "description": "Confirmation"
+  },
+  "optSavedNoKey": {
+    "message": "Salvato, ma senza chiave API la trascrizione non parte.",
+    "description": "Warning on save"
+  },
+  "optSaveFailed": {
+    "message": "Salvataggio fallito: $ERROR$",
+    "description": "Error on save",
+    "placeholders": {
+      "ERROR": {
+        "content": "$1",
+        "example": "quota exceeded"
+      }
+    }
+  },
+  "optClearCache": {
+    "message": "Svuota cache trascrizioni",
+    "description": "Button"
+  },
+  "optCacheAlreadyEmpty": {
+    "message": "La cache era già vuota.",
+    "description": "Notice"
+  },
+  "optCacheCleared": {
+    "message": "$COUNT$ trascrizioni rimosse.",
+    "description": "Confirmation",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "optClearFailed": {
+    "message": "Pulizia fallita: $ERROR$",
+    "description": "Error",
+    "placeholders": {
+      "ERROR": {
+        "content": "$1",
+        "example": "unavailable"
+      }
+    }
+  },
+  "optCacheCountNone": {
+    "message": "Nessuna trascrizione in cache.",
+    "description": "Counter"
+  },
+  "optCacheCountOne": {
+    "message": "1 trascrizione in cache.",
+    "description": "Counter"
+  },
+  "optCacheCountMany": {
+    "message": "$COUNT$ trascrizioni in cache.",
+    "description": "Counter",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  }
+}
